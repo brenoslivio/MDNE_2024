@@ -16,40 +16,21 @@ import torch
 import re
 import joblib
 
-def extract_embeddings(sequence, tokenizer, model, device):
-    sequences = [" ".join(list(re.sub(r"[UZOB]", "X", sequence)))]
-
-    ids = tokenizer.batch_encode_plus(sequences, add_special_tokens=True, pad_to_max_length=True)
-    input_ids = torch.tensor(ids['input_ids']).to(device)
-    attention_mask = torch.tensor(ids['attention_mask']).to(device)
-
-    with torch.no_grad():
-        embedding = model(input_ids=input_ids, attention_mask=attention_mask)[0]
-
-    embedding = embedding.cpu().numpy()
-
-    seq_len = (attention_mask[0] == 1).sum()
-    seq_emd = embedding[0][:seq_len-1]
-
-    avg_pool = seq_emd.mean(axis=0)
-
-    dict_embeddings = {f"embedding_{i}": embed for i, embed in enumerate(avg_pool)}
-
-    return dict_embeddings
-
-def seqs_embeddings(df_seqs):
-    tokenizer = T5Tokenizer.from_pretrained("Rostlab/prot_t5_xl_half_uniref50-enc", do_lower_case=False)
-
-    model = T5EncoderModel.from_pretrained("Rostlab/prot_t5_xl_half_uniref50-enc")
-
-    device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-
-    model = model.to(device)
-    model = model.eval()
-
-    df_seqs_embeddings = df_seqs.with_columns(pl.col("sequence").map_elements(lambda x: extract_embeddings(x, tokenizer, model, device)).alias("embeddings")).unnest("embeddings")
+def dict_kmer(seq, k):
+    chars = ['A', 'R', 'N', 'D', 'C', 'Q', 'E', 'G', 'H', 'I',
+                'L', 'K', 'M', 'F', 'P', 'S', 'T', 'W', 'Y', 'V', 'X']
     
-    return df_seqs_embeddings
+    counts = {''.join(comb): 0 for comb in product(chars, repeat= k)}
+    L = len(seq)
+    for i in range(L - k + 1):
+        counts[seq[i:i+k]] += 1
+
+    return counts
+
+def seqs_bow(df_seqs):
+    df_seqs_bow = df_seqs.with_columns(pl.col("sequence").map_elements(lambda x: dict_kmer(x, 1)).alias("aac")).unnest("aac")
+
+    return df_seqs_bow
 
 def parse_fasta(fasta_text):
     """Parse a FASTA format text and return a polars DataFrame with columns 'header' and 'sequence'."""
@@ -89,36 +70,51 @@ GATTACAACGGGTAAGTCTG
 GGTAACGGGTTTACGCTTAT
 """
 
+def predict_sequences(df_seqs):
+    X = df_seqs.select(pl.nth(range(2, len(df_seqs.columns)))).to_numpy()
+
+    best_model = joblib.load("best_model.pkl")
+
+    y_pred = pl.DataFrame(best_model.predict(X))
+
+    y_pred.columns = ["prediction"]
+
+    return y_pred
+
 def runUI():
     st.set_page_config(page_title="MDNE 2024 - Projeto 1", layout="wide")
     
     st.title("Projeto 1: Mineração de Textos - Classificação de Peptídeos Anti Câncer")
 
     # Initialize text box with empty string
-    fasta_input = st.text_area("Enter protein sequences in FASTA format", key="job_input", height=200)
+    fasta_input = st.text_area("Coloque as sequências de proteínas em formato FASTA", key="job_input", height=200)
     
     col1, col2 = st.columns(2)
 
     with col1:
-        if st.button("Submit"):
-            if fasta_input:
-                df_seqs = parse_fasta(fasta_input)
-                st.write("Parsed Sequences:")
-                st.write(df_seqs)
-
-                with st.spinner("Computing embeddings..."):
-                    df_seqs_embeddings = seqs_embeddings(df_seqs)
-
-                st.write("Computed Embeddings:")
-                st.write(df_seqs_embeddings)
-            else:
-                st.error("Please input sequences in FASTA format.")
+        submit = st.button("Submeter")
 
     with col2:
-        example = st.button("Example", on_click=get_example_sequences)
+        example = st.button("Exemplo", on_click=get_example_sequences)
 
+    if submit:
+        if fasta_input:
+            df_seqs = parse_fasta(fasta_input)
+            st.markdown("**Sequências lidas:**")
+            st.dataframe(df_seqs, use_container_width=True)
 
+            with st.spinner("Calculando Bag of Words..."):
+                df_seqs_bow = seqs_bow(df_seqs)
 
+            st.markdown("**Representação em Bag of Words:**")
+            st.dataframe(df_seqs_bow, use_container_width=True)
+
+            y_pred = predict_sequences(df_seqs_bow)
+
+            st.markdown("**Resultados da predição:**")
+            st.dataframe(pl.concat([df_seqs, y_pred],how="horizontal"), use_container_width=True)
+        else:
+            st.error("Coloque as sequências no formato FASTA.")
 
 if __name__ == "__main__":
     runUI()
