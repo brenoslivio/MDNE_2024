@@ -15,6 +15,7 @@ from sklearn.metrics import make_scorer, accuracy_score, f1_score, matthews_corr
 import torch
 import re
 import joblib
+import urllib.request
 
 def dict_kmer(seq, k):
     chars = ['A', 'R', 'N', 'D', 'C', 'Q', 'E', 'G', 'H', 'I',
@@ -73,7 +74,8 @@ GGTAACGGGTTTACGCTTAT
 def predict_sequences(df_seqs):
     X = df_seqs.select(pl.nth(range(2, len(df_seqs.columns)))).to_numpy()
 
-    best_model = joblib.load("best_model.pkl")
+    response = urllib.request.urlopen("https://github.com/brenoslivio/MDNE_2024/raw/refs/heads/main/Project_1/best_model.pkl")
+    best_model = joblib.load(response)
 
     y_pred = pl.DataFrame(best_model.predict(X))
 
