@@ -86,10 +86,10 @@ def predict_sequences(df_seqs):
 def runUI():
     st.set_page_config(page_title="MDNE 2024 - Projeto 1", layout="wide")
     
-    st.title("Projeto 1: Mineração de Textos - Classificação de Peptídeos Anti Câncer")
+    st.title("Projeto 1: Mineração de Textos - Classificação de Peptídeos Anticâncer")
 
     # Initialize text box with empty string
-    fasta_input = st.text_area("Coloque as sequências de proteínas em formato FASTA", key="job_input", height=200)
+    fasta_input = st.text_area("Coloque as sequências de aminoácidos em formato FASTA", key="job_input", height=200)
     
     col1, col2 = st.columns(2)
 
@@ -114,7 +114,7 @@ def runUI():
             y_pred = predict_sequences(df_seqs_bow)
 
             st.markdown("**Resultados da predição:**")
-            st.dataframe(pl.concat([df_seqs, y_pred],how="horizontal"), use_container_width=True)
+            st.dataframe(pl.concat([df_seqs, y_pred], how="horizontal"), use_container_width=True)
         else:
             st.error("Coloque as sequências no formato FASTA.")
 
