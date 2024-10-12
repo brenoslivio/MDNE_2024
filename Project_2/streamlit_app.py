@@ -52,7 +52,7 @@ def predict_image(df_image_embedding):
     return y_pred
 
 def runUI():
-    st.set_page_config(page_title="MDNE 2024 - Projeto 1", layout="wide")
+    st.set_page_config(page_title="MDNE 2024 - Projeto 2", layout="wide")
     
     st.title("Projeto 2: Mineração de Imagens - Classificação de Abelhas e Vespas")
 
