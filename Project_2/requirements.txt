@@ -1,39 +1,39 @@
 altair==5.4.1
-anaconda-anon-usage @ file:///croot/anaconda-anon-usage_1710965072196/work
-archspec @ file:///croot/archspec_1709217642129/work
+anaconda-anon-usage==0.4.4
+archspec==0.2.3
 attrs==24.2.0
 blinker==1.8.2
-boltons @ file:///work/perseverance-python-buildout/croot/boltons_1698851177130/work
-Brotli @ file:///croot/brotli-split_1714483155106/work
+boltons==23.0.0
+Brotli==1.0.9
 cachetools==5.5.0
-certifi @ file:///croot/certifi_1717618050233/work/certifi
-cffi @ file:///croot/cffi_1714483155441/work
-charset-normalizer @ file:///tmp/build/80754af9/charset-normalizer_1630003229654/work
+certifi==2024.6.2
+cffi==1.16.0
+charset-normalizer==2.0.4
 click==8.1.7
-conda @ file:///croot/conda_1715635703388/work
-conda-content-trust @ file:///croot/conda-content-trust_1714483159009/work
-conda-libmamba-solver @ file:///croot/conda-libmamba-solver_1706733287605/work/src
-conda-package-handling @ file:///croot/conda-package-handling_1718138267740/work
-conda_package_streaming @ file:///croot/conda-package-streaming_1718136078615/work
-cryptography @ file:///croot/cryptography_1714660666131/work
-distro @ file:///croot/distro_1714488253808/work
+conda==24.5.0
+conda-content-trust==0.2.0
+conda-libmamba-solver==24.1.0
+conda-package-handling==2.3.0
+conda_package_streaming==0.10.0
+cryptography==42.0.5
+distro==1.9.0
 filelock==3.16.1
-frozendict @ file:///croot/frozendict_1713194832637/work
+frozendict==2.4.2
 fsspec==2024.9.0
 gitdb==4.0.11
 GitPython==3.1.43
-idna @ file:///croot/idna_1714398848350/work
+idna==3.7
 Jinja2==3.1.4
 joblib==1.4.2
-jsonpatch @ file:///croot/jsonpatch_1714483231291/work
+jsonpatch==1.33
 jsonpointer==2.1
 jsonschema==4.23.0
 jsonschema-specifications==2024.10.1
-libmambapy @ file:///croot/mamba-split_1714483352891/work/libmambapy
+libmambapy==1.5.8
 markdown-it-py==3.0.0
 MarkupSafe==3.0.1
 mdurl==0.1.2
-menuinst @ file:///croot/menuinst_1718132535249/work
+menuinst==2.1.1
 mpmath==1.3.0
 narwhals==1.9.3
 networkx==3.4.1
@@ -50,26 +50,27 @@ nvidia-cusparse-cu12==12.1.0.106
 nvidia-nccl-cu12==2.20.5
 nvidia-nvjitlink-cu12==12.6.77
 nvidia-nvtx-cu12==12.1.105
-packaging @ file:///croot/packaging_1710807400464/work
+packaging==23.2
 pandas==2.2.3
 pillow==10.4.0
-platformdirs @ file:///work/perseverance-python-buildout/croot/platformdirs_1701732573265/work
-pluggy @ file:///work/perseverance-python-buildout/croot/pluggy_1698805497733/work
+pip==24.0
+platformdirs==3.10.0
+pluggy==1.0.0
 polars==1.9.0
 protobuf==5.28.2
 pyarrow==17.0.0
-pycosat @ file:///croot/pycosat_1714510623388/work
-pycparser @ file:///tmp/build/80754af9/pycparser_1636541352034/work
+pycosat==0.6.6
+pycparser==2.21
 pydeck==0.9.1
 Pygments==2.18.0
-PySocks @ file:///work/perseverance-python-buildout/croot/pysocks_1698845478203/work
+PySocks==1.7.1
 python-dateutil==2.9.0.post0
 pytz==2024.2
 referencing==0.35.1
-requests @ file:///croot/requests_1716902831423/work
+requests==2.32.2
 rich==13.9.2
 rpds-py==0.20.0
-ruamel.yaml @ file:///work/perseverance-python-buildout/croot/ruamel.yaml_1698863605521/work
+ruamel.yaml==0.17.21
 scikit-learn==1.5.2
 scipy==1.14.1
 setuptools==69.5.1
@@ -83,12 +84,12 @@ toml==0.10.2
 torch==2.4.1
 torchvision==0.19.1
 tornado==6.4.1
-tqdm @ file:///croot/tqdm_1716395931952/work
+tqdm==4.66.4
 triton==3.0.0
-truststore @ file:///work/perseverance-python-buildout/croot/truststore_1701735771625/work
+truststore==0.8.0
 typing_extensions==4.12.2
 tzdata==2024.2
-urllib3 @ file:///croot/urllib3_1718912636303/work
+urllib3==2.2.2
 watchdog==5.0.3
 wheel==0.43.0
-zstandard @ file:///croot/zstandard_1714677652653/work
+zstandard==0.22.0
